@@ -28,8 +28,10 @@
 
 from ..Math import rms_to_amplitude, amplitude_to_rms
 from ..Tools.StringTools import join_list, join_dict, str_spice, str_spice_list
-from ..Unit import as_s, as_V, as_A, as_Hz, as_rad, as_Degree
+from ..Unit import as_s, as_V, as_A, as_Hz
 from .BasicElement import VoltageSource, CurrentSource
+
+from numpy import rad2deg
 
 ####################################################################################################
 
@@ -86,7 +88,7 @@ class SinusoidalMixin(SourceMixinAbc):
 
       :attr:`ac_magnitude`
       
-      :attr:`ac_phase`
+      :attr:`ac_phase` ngspice is in degrees, pyspice is in radians,will internaly convert to deg via numpy.rad2deg
 
       :attr:`amplitude`
 
@@ -112,7 +114,9 @@ class SinusoidalMixin(SourceMixinAbc):
 
         self.dc_offset = self.__as_unit__(dc_offset)
         self.ac_magnitude = self.__as_unit__(ac_magnitude)
-        self.ac_phase = as_Degree(ac_phase)
+        
+        self.ac_phase = as_rad(ac_phase) #Fixme: ngspice is in deg, pyspice unit degree is for temp not phase degrees; so units needs fixing as well
+        
         self.offset = self.__as_unit__(offset)
         self.amplitude = self.__as_unit__(amplitude)
         self.frequency = as_Hz(frequency) # Fixme: protect by setter?
@@ -138,7 +142,7 @@ class SinusoidalMixin(SourceMixinAbc):
 
         sin_part = join_list((self.offset, self.amplitude, self.frequency, self.delay, self.damping_factor))
         return join_list((
-            'DC {} AC {} {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude, self.ac_phase)),
+            'DC {} AC {} {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude, np.rad2deg(self.ac_phase))),
             'SIN({})'.format(sin_part),
         ))
 
@@ -624,11 +628,11 @@ class AcLine(SinusoidalVoltageSource):
 
     ##############################################
 
-    def __init__(self, netlist, name, node_plus, node_minus, rms_voltage=230, frequency=50):
+    def __init__(self, netlist, name, node_plus, node_minus, rms_voltage=230, frequency=50, ac_phase=0):
 
         super().__init__(netlist, name, node_plus, node_minus,
                          amplitude=rms_to_amplitude(rms_voltage),
-                         frequency=frequency)
+                         frequency=frequency, ac_phase=ac_phase)
 
 ####################################################################################################
 
