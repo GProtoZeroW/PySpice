@@ -28,7 +28,7 @@
 
 from ..Math import rms_to_amplitude, amplitude_to_rms
 from ..Tools.StringTools import join_list, join_dict, str_spice, str_spice_list
-from ..Unit import as_s, as_V, as_A, as_Hz
+from ..Unit import as_s, as_V, as_A, as_Hz, as_rad
 from .BasicElement import VoltageSource, CurrentSource
 
 from numpy import rad2deg
