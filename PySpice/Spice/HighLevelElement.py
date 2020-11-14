@@ -31,7 +31,7 @@ from ..Tools.StringTools import join_list, join_dict, str_spice, str_spice_list
 from ..Unit import as_s, as_V, as_A, as_Hz, as_rad
 from .BasicElement import VoltageSource, CurrentSource
 
-from numpy import rad2deg
+from numpy import rad2deg as np_rad2deg
 
 ####################################################################################################
 
@@ -142,7 +142,7 @@ class SinusoidalMixin(SourceMixinAbc):
 
         sin_part = join_list((self.offset, self.amplitude, self.frequency, self.delay, self.damping_factor))
         return join_list((
-            'DC {} AC {} {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude, np.rad2deg(self.ac_phase))),
+            'DC {} AC {} {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude, np_rad2deg(self.ac_phase))),
             'SIN({})'.format(sin_part),
         ))
 
