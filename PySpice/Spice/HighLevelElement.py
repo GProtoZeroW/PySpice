@@ -138,7 +138,7 @@ class SinusoidalMixin(SourceMixinAbc):
 
         sin_part = join_list((self.offset, self.amplitude, self.frequency, self.delay, self.damping_factor))
         return join_list((
-            'DC {} AC {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude)),
+            'DC {} AC {} {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude, self.ac_phase)),
             'SIN({})'.format(sin_part),
         ))
 
