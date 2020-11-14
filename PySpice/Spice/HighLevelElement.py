@@ -112,7 +112,8 @@ class SinusoidalMixin(SourceMixinAbc):
 
         self.dc_offset = self.__as_unit__(dc_offset)
         self.ac_magnitude = self.__as_unit__(ac_magnitude)
-        #self.ac_phase = as_s(ac_phase)
+        #self.ac_phase = as_rad(ac_phase)
+        as_rad(ac_phase)
         self.offset = self.__as_unit__(offset)
         self.amplitude = self.__as_unit__(amplitude)
         self.frequency = as_Hz(frequency) # Fixme: protect by setter?
