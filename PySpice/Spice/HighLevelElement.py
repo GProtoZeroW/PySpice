@@ -28,7 +28,7 @@
 
 from ..Math import rms_to_amplitude, amplitude_to_rms
 from ..Tools.StringTools import join_list, join_dict, str_spice, str_spice_list
-from ..Unit import as_s, as_V, as_A, as_Hz, as_Degree
+from ..Unit import as_s, as_V, as_A, as_Hz, as_rad
 from .BasicElement import VoltageSource, CurrentSource
 
 ####################################################################################################
@@ -112,7 +112,7 @@ class SinusoidalMixin(SourceMixinAbc):
 
         self.dc_offset = self.__as_unit__(dc_offset)
         self.ac_magnitude = self.__as_unit__(ac_magnitude)
-        self.ac_phase = as_Degree(ac_phase)
+        self.ac_phase = as_rad(ac_phase)
         self.offset = self.__as_unit__(offset)
         self.amplitude = self.__as_unit__(amplitude)
         self.frequency = as_Hz(frequency) # Fixme: protect by setter?
