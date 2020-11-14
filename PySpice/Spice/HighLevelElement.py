@@ -116,6 +116,7 @@ class SinusoidalMixin(SourceMixinAbc):
         self.ac_magnitude = self.__as_unit__(ac_magnitude)
         
         self.ac_phase = as_rad(ac_phase) #Fixme: ngspice is in deg, pyspice unit degree is for temp not phase degrees; so units needs fixing as well
+        self.ac_phase=np_rad2deg(self.ac_phase)
         
         self.offset = self.__as_unit__(offset)
         self.amplitude = self.__as_unit__(amplitude)
@@ -142,7 +143,7 @@ class SinusoidalMixin(SourceMixinAbc):
 
         sin_part = join_list((self.offset, self.amplitude, self.frequency, self.delay, self.damping_factor))
         return join_list((
-            'DC {} AC {} {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude, np_rad2deg(self.ac_phase))),
+            'DC {} AC {} {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude, self.ac_phase)),
             'SIN({})'.format(sin_part),
         ))
 
