@@ -112,7 +112,7 @@ class SinusoidalMixin(SourceMixinAbc):
 
         self.dc_offset = self.__as_unit__(dc_offset)
         self.ac_magnitude = self.__as_unit__(ac_magnitude)
-        self.ac_phase = as_s(ac_phase)
+        #self.ac_phase = as_s(ac_phase)
         self.offset = self.__as_unit__(offset)
         self.amplitude = self.__as_unit__(amplitude)
         self.frequency = as_Hz(frequency) # Fixme: protect by setter?
@@ -138,7 +138,7 @@ class SinusoidalMixin(SourceMixinAbc):
 
         sin_part = join_list((self.offset, self.amplitude, self.frequency, self.delay, self.damping_factor))
         return join_list((
-            'DC {} AC {} {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude, self.ac_phase)),
+            'DC {} AC {}'.format(*str_spice_list(self.dc_offset, self.ac_magnitude)),
             'SIN({})'.format(sin_part),
         ))
 
